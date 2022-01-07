@@ -1,0 +1,44 @@
+{
+  "name": "flowine",
+  "version": "1.0.0",
+  "description": "flowine is an open source engine for flow based programming",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --legacy-watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sbstnkll/flowine.git"
+  },
+  "keywords": [
+    "fpb",
+    "nodes",
+    "flow-based-programming",
+    "visual-programming"
+  ],
+  "author": "Sebastian Kulle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sbstnkll/flowine/issues"
+  },
+  "homepage": "https://github.com/sbstnkll/flowine#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "flowine": "file:modules/flowine",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "python-shell": "^3.0.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "MyCanvas.json"
+    ]
+  }
+}
