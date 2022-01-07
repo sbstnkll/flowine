@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+## Documentation
 
-You can use the [editor on GitHub](https://github.com/sbstnkll/flowine/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+flowine.js is an open source engine for flow based programming. It is written in JavaScript.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Installation
 
-### Markdown
+`npm i flowine`
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Usage
 
-```markdown
-Syntax highlighted code block
+`import flowine from "flowine"`
 
-# Header 1
-## Header 2
-### Header 3
+### Introduction
 
-- Bulleted
-- List
+- Initializes flowine: `flowine.init()`
+- Terminates flowine: `flowine.terminate()`
+- Get the status of flowine: `flowine.status()`
+- Create a blank new canvas: `flowine.createCanvas(canvasName)`
+- Delete the canvas: `flowine.deleteCanvas()`
+- Create a new node: `flowine.createNode(nodeType)`
+- Set the port data of a node: `flowine.setPortData(id, data)`
+- Delete a node: `flowine.deleteNode(id)`
+- Create a edge: `flowine.createEdge(sourcePortId, targetPortId)`
+- Update a edge: `flowine.updateEdge(id, sourcePortId, targetPortId)`
+- Delete a edge: `flowine.deleteEdge(id)`
+- Save the canvas as a JSON file: `flowine.saveCanvasAsJSON(fileName)`
+- Open a canvas from a JSON file: `flowine.openCanvasFromJSON(fileName)` 
+- Run (Execute) a node: `flowine.runNode(id)`
+- Solve (Execute) the whole graph: `flowine.solveGraph()`
 
-1. Numbered
-2. List
+### Development
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/sbstnkll/flowine/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+The core library consists of just 3 files:
+- `flowine.js` This is the main library width all classes and functions
+- `config.js` This is the configuration file that is used by flowine.js
+- `nodelibrary.js` This is the standard node-library that is loaded by default
 
 ### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+flowine is maintained by Sebastian Kulle (github.com/sbstnkll)
