@@ -10,9 +10,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN sudo apt-get install -y python3-pip
 # install opencv-python, skip questions:
-RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install python3-opencv
+#RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install python3-opencv
 
-WORKDIR example
+WORKDIR example/example
 
 COPY . /example
 

@@ -1,1 +1,6 @@
+src/node_modules
+dev_env/node_modules
+example/node_modules
+example/modules/flowine/node_modules
+**/package-lock.json
 **/.DS_Store

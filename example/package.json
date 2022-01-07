@@ -27,7 +27,7 @@
   "homepage": "https://github.com/sbstnkll/flowine#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "flowine": "file:modules/flowine",
+    "flowine": "file:../src",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
     "python-shell": "^3.0.0",
