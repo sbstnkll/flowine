@@ -2,6 +2,12 @@
 
 flowine.js is an open source engine for flow based programming
 
+## Documentation
+
+https://sbstnkll.github.io/flowine/
+
+## Introduction
+
 All source files in `/src`:
 
 `flowine.js` - this is the core library  
@@ -21,3 +27,7 @@ Example `/example`:
 `docker run -it --rm --name example -p 127.0.0.1:8000:8000/tcp -v ${PWD}:/example example`  
 `cd /example/src && npm i`  
 `cd /example/example && npm i && npm run dev`  
+
+## Support or Contact
+
+flowine is maintained by Sebastian Kulle (github.com/sbstnkll)
