@@ -1,13 +1,10 @@
 {
   "name": "flowine",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "flowine.js is an open source engine for flow based programming",
   "main": "flowine.js",
   "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Sebastian Kulle",
+  "author": "Sebastian Kulle (github.com/sbstnkll",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
