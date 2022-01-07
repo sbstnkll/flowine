@@ -2,6 +2,10 @@
 
 flowine.js is an open source engine for flow based programming
 
+## Documentation
+
+https://sbstnkll.github.io/flowine/
+
 All source files in `/src`:
 
 `flowine.js` - this is the core library  
