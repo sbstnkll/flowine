@@ -1,6 +1,6 @@
 # flowine.js
 
-[![NPM Package][https://img.shields.io/npm/v/flowine][https://www.npmjs.com/package/flowine]]
+[![NPM Package](https://img.shields.io/npm/v/flowine)](https://www.npmjs.com/package/flowine)
 
 
 flowine.js is an open source engine for flow based programming

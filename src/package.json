@@ -1,6 +1,6 @@
 {
   "name": "flowine",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "flowine.js is an open source engine for flow based programming",
   "main": "flowine.js",
   "type": "module",
