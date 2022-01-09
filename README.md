@@ -6,6 +6,14 @@ flowine.js is an open source engine for flow based programming
 
 https://sbstnkll.github.io/flowine/
 
+## Installation
+
+`npm i flowine`
+
+## Usage
+
+import flowine from "flowine"
+
 ## Introduction
 
 All source files in `/src`:
