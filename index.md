@@ -10,6 +10,8 @@ flowine.js is an open source engine for flow based programming. It is written in
 
 `import flowine from "flowine"`
 
+(This is a ES module. You can also use it with Node.js, but have to add the following line to your package.json: `"type": "module"`)
+
 ### Introduction
 
 - Initializes flowine: `flowine.init()`
