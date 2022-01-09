@@ -1,6 +1,6 @@
 {
   "name": "flowine",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "flowine.js is an open source engine for flow based programming",
   "main": "flowine.js",
   "type": "module",
@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/sbstnkll/flowine.git"
   },
+  "homepage": "https://sbstnkll.github.io/flowine/",
   "dependencies": {
     "axios": "^0.21.1",
     "express": "^4.17.1",
