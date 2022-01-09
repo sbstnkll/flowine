@@ -1,11 +1,15 @@
 {
   "name": "flowine",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "flowine.js is an open source engine for flow based programming",
   "main": "flowine.js",
   "type": "module",
   "author": "Sebastian Kulle (github.com/sbstnkll)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sbstnkll/flowine.git"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "express": "^4.17.1",
