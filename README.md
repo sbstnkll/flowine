@@ -12,7 +12,7 @@ https://sbstnkll.github.io/flowine/
 
 ## Usage
 
-import flowine from "flowine"
+`import flowine from "flowine`
 
 ## Introduction
 
