@@ -1,3 +1,3 @@
-import flowine from "flowine"
+import flowine from "flowine";
 
 console.log(flowine.init());
