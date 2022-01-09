@@ -14,6 +14,10 @@ https://sbstnkll.github.io/flowine/
 
 `import flowine from "flowine"`
 
+This is a ES module. You can also use it with Node.js, but have to add the following line to your package.json:
+
+`"type": "module"`
+
 ## Introduction
 
 All source files in `/src`:
