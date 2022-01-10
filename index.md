@@ -14,21 +14,102 @@ flowine.js is an open source engine for flow based programming. It is written in
 
 ### Introduction
 
-- Initializes flowine: `flowine.init()`
-- Terminates flowine: `flowine.terminate()`
-- Get the status of flowine: `flowine.status()`
-- Create a blank new canvas: `flowine.createCanvas(canvasName)`
-- Delete the canvas: `flowine.deleteCanvas()`
-- Create a new node: `flowine.createNode(nodeType)`
-- Set the port data of a node: `flowine.setPortData(id, data)`
-- Delete a node: `flowine.deleteNode(id)`
-- Create a edge: `flowine.createEdge(sourcePortId, targetPortId)`
-- Update a edge: `flowine.updateEdge(id, sourcePortId, targetPortId)`
-- Delete a edge: `flowine.deleteEdge(id)`
-- Save the canvas as a JSON file: `flowine.saveCanvasAsJSON(fileName)`
-- Open a canvas from a JSON file: `flowine.openCanvasFromJSON(fileName)` 
-- Run (Execute) a node: `flowine.runNode(id)`
-- Solve (Execute) the whole graph: `flowine.solveGraph()`
+#### Available Methods:
+```js
+flowine.init() // Initializes flowine 
+flowine.terminate() // Terminates flowine
+flowine.status() // Get the status of flowine
+flowine.createCanvas(canvasName) // Create a blank new canvas
+flowine.deleteCanvas() // Delete the canvas
+flowine.createNode(nodeType) // Create a new node
+flowine.setPortData(id, data) // Set the port data of a node
+flowine.deleteNode(id) // Delete a node
+flowine.createEdge(sourcePortId, targetPortId) // Create a edge
+flowine.updateEdge(id, sourcePortId, targetPortId) // Update a edge
+flowine.deleteEdge(id) // Delete a edge
+flowine.saveCanvasAsJSON(fileName) // Save the canvas as a JSON file
+flowine.openCanvasFromJSON(fileName) // Open a canvas from a JSON file
+flowine.runNode(id) // Run (Execute) a node
+flowine.solveGraph() // Solve (Execute) the whole graph
+```
+
+#### Execution of Code:
+Every node has a `actionFunction`. This can be JavaScript- or Python-Code. JavaScript-Code can be executed in both frontend and backend (server-side). To execute Pythoncode you need to have a serverside environment as it leverages the npm-module PythonShell.
+
+Example of a JavaScript `actionFunction`:
+```json
+"actionFunction": {
+  "language": "JavaScript",
+  "code": "(function uppercaseNode() { opdArray_[0] = ipdArray_[0].toUpperCase(); return opdArray_; })();"
+}
+```
+
+Example of a Python `actionFunction`:
+> ⚠️ Running Pythoncode is still in very early development. Use it with caution.
+```json
+"UPPERCASE_PYTHON": {
+  "nodeType": "PRIMITIVE",
+  "caption": "UppercasePython",
+  "inputPorts": [
+    {
+      "type": "TEXT",
+      "visible": true
+    }
+  ],
+  "outputPorts": [
+    {
+      "type": "TEXT",
+      "visible": true
+    }
+  ],
+  "actionFunction": {
+    "language": "Python",
+    "code": "import sys\nimport json\nimport os\nstdinArray_ = sys.stdin.readline().split(\",\")\nipdArray_ = []\nfor e in stdinArray_:\n\tipdArray_.append(e.strip().strip(\"[\").strip(\"]]\").strip(\"\\\\\"\"))\nopdArray_ = []\nopdArray_.append(ipdArray[0].upper())\nprint(json.dumps(opdArray_))"
+  }
+}
+```
+
+#### The structure of a Canvas
+This is an empty Canvas with a Name, a creation Date and no Nodes and no Edges:
+```json
+{
+  "id": 1,
+  "header": {
+    "canvasName": "MyCanvas",
+    "creationDate": "YYYY-MM-DD"
+  },
+  "body": {
+    "nodes": [],
+    "edges": []
+  }
+}
+```
+
+#### The structure of a Node
+This Node reads TEXT from the Input-Port and transforms it to uppercase-TEXT that will be send to the Output-Port:
+```json
+"UPPERCASE": {  
+  "nodeType": "PRIMITIVE",  
+  "caption": "Uppercase",  
+  "inputPorts": [  
+    {  
+      "type": "TEXT",  
+      "visible": true  
+    }  
+  ],  
+  "outputPorts": [  
+    {  
+      "type": "TEXT",  
+      "visible": true  
+    }  
+  ],  
+  "actionFunction": {  
+    "language": "JavaScript",  
+    "code": "(function uppercaseNode() { opdArray_[0] = ipdArray_[0].toUpperCase(); return opdArray_; })();"  
+  }  
+},  
+```
+The Nodes are stored in the file `nodelibrary.js`. You can add your own custom nodes to this file.
 
 ### Development
 
