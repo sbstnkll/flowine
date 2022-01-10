@@ -106,8 +106,8 @@ This Node reads TEXT from the Input-Port and transforms it to uppercase-TEXT tha
   "actionFunction": {  
     "language": "JavaScript",  
     "code": "(function uppercaseNode() { opdArray_[0] = ipdArray_[0].toUpperCase(); return opdArray_; })();"  
-  }  
-},  
+  }
+}
 ```
 The Nodes are stored in the file `nodelibrary.js`. You can add your own custom nodes to this file.
 
