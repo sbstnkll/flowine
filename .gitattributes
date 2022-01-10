@@ -1,3 +1,2 @@
 dev_env/** linguist-vendored
 example/** linguist-vendored
-*.sh linguist-vendored
