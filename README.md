@@ -2,8 +2,6 @@
 
 [![NPM Package](https://img.shields.io/npm/v/flowine)](https://www.npmjs.com/package/flowine)
 
-Donate: https://paypal.me/sbstnkll
-
 flowine.js is an open source engine for flow based programming
 
 ## Documentation
@@ -29,3 +27,5 @@ Please see the Documentation: https://sbstnkll.github.io/flowine/
 ## Support or Contact
 
 flowine is maintained by Sebastian Kulle (github.com/sbstnkll)
+
+Donate: https://paypal.me/sbstnkll
