@@ -11,7 +11,7 @@
     "url": "git+https://github.com/sbstnkll/flowine.git"
   },
   "homepage": "https://sbstnkll.github.io/flowine/",
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
