@@ -34,7 +34,7 @@ flowine.solveGraph() // Solve (Execute) the whole graph
 ```
 
 #### Execution of Code:
-Every node has a `actionFunction`. This can be JavaScript- or Python-Code. JavaScript-Code can be executed in both frontend and backend (server-side). To execute Pythoncode you need to have a serverside environment as it leverages the npm-module PythonShell.
+Every node has a `actionFunction`. This can be JavaScript- or Python-Code. At the moment both can only be executed in a Node.js serverside environment. However in the future it will be possible toexecute JavaScript Code on the client-side.
 
 Example of a JavaScript `actionFunction`:
 ```json
