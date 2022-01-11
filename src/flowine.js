@@ -888,16 +888,16 @@ class Flowine {
               e.targetPortId
             );
           });
-          debugMsg(FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.success);
+          debugMsg(FLOWINE_CONFIG.debugMsg.openCanvas.success);
           return {
-            "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.success,
+            "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvas.success,
             "result": FLOWINE_CONFIG.successResult
           };
         } catch (error) {
           console.log(error);
-          debugMsg(FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.error);
+          debugMsg(FLOWINE_CONFIG.debugMsg.openCanvas.error);
           return {
-            "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.error,
+            "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvas.error,
             "result": FLOWINE_CONFIG.errorResult
           };
         }
@@ -975,7 +975,7 @@ class Flowine {
     return result_
   }
 
-  async runNode(id, debug = false) {
+  async runNode_old(id, debug = false) {
     var ipdArray_ = [],
       opdArray_ = [];
     var codeArray_ = [];
@@ -1154,6 +1154,167 @@ class Flowine {
 
       default:
         break;
+    }
+  }
+
+  inputPortsHaveNullValues(inputPortsArray_) {
+    var result_;
+    inputPortsArray_.map((e, i) => {
+      if (e.portState.data.data === null) result_ = true;
+      else result_ = false;
+    })
+    return result_;
+  }
+
+  runNode(id, debug = false) {
+    var ipdArray_ = [],
+      opdArray_ = [];
+    var codeArray_ = [];
+    var codeString_ = "";
+    var ipDataTypes_ = [];
+    var actionFunctionLanguage_ = "";
+    var actionFunctionCode_ = "";
+    var ipdArrayVarName_ = Object.keys({ ipdArray_ })[0];
+    var opdArrayVarName_ = Object.keys({ opdArray_ })[0];
+    var nodeId_ = id;
+    var inputPortsHaveNullValues_;
+    var dataTypeError_ = false;
+    var dataTypeErrorObject_ = {};
+
+    // check if there are any NULL - values at the input ports of the node
+    // is yes, abort and send null values to all output ports:
+    inputPortsHaveNullValues_ = this.inputPortsHaveNullValues(this.getNodeObjectById(id).inputPorts);
+
+    console.log(inputPortsHaveNullValues_)
+
+    switch (inputPortsHaveNullValues_) {
+      case true:
+        this.getNodeObjectById(id).outputPorts.map((e, i) => {
+          opdArray_.push(null);
+        });
+        if (debugMessages) console.log("opdArray_ = ", opdArray_);
+        this.getNodeObjectById(id).outputPorts.map((e, i) => {
+          // update the output ports of the node:
+          e.setData(opdArray_[i]);
+          // update the input ports of the successor nodes:
+          e.portState.connectedPorts.map((e_, i_) => {
+            this.getPortObjectById(e_).setData(opdArray_[i]);
+            //console.log("INSIDE OF RUNNODE: ", e_.portState, e_.id)
+          });
+        });
+        // update the nodestate of the node:
+        this.getNodeObjectById(id).nodeState.setState("03", "error. one or more inputports have null values. the actionfunction of this node will not run.");
+        debugMsg("run node error.");
+        debugMsg("--- RUN NODE END ---");
+        debugMsg("inputPorts have null values");
+        return {
+          "debugMsg": "inputPorts have null values",
+          "result": FLOWINE_CONFIG.errorResult
+        };
+      
+      case false:
+        try {
+          debugMsg("--- RUN NODE START ---");
+
+          // check if all the data types from the input ports are correct, if not abort and send error message:
+
+          this.checkInputPortDataTypes(id).then(res_ => {
+            if (res_.dataTypeError === true) {
+              dataTypeError_ = true;
+              dataTypeErrorObject_ = res_;
+            }
+          });
+
+          if (dataTypeError_ === true) throw new Error(dataTypeErrorObject_.dataTypes);
+    
+          // everything is ok. so now let's prepare to run the actionFunction of the node:
+          var nodeObject = this.getNodeObjectById(nodeId_);
+    
+          // read the nodes inputports:
+          nodeObject.inputPorts.map((e, i) => {
+            if (debug)
+              console.log("inputPort[" + i + "].data = ", e.portState.data);
+            ipDataTypes_.push(e.dataType);
+            ipdArray_.push(e.portState.data.data);
+          });
+    
+          actionFunctionLanguage_ = nodeObject.actionFunction.language;
+          actionFunctionCode_ = nodeObject.actionFunction.code;
+    
+          if (debugMessages) console.log("ipdArray_ = ", ipdArray_);
+          if (debug) console.log("actionFunction_ = ", actionFunctionCode_);
+          if (debug) console.log("codeString_ = ", codeString_);
+  
+
+          // start the vm and run the action function asynchronously:
+          // * START
+
+          // scoped eval:
+
+          /*
+          const scopedEval = (scope, script) => Function(`"use strict"; ${script}`).bind(scope)();
+Usage:
+
+scopedEval({a:1,b:2},"return this.a+this.b")*/
+
+
+          const vmOutput = Function(actionFunctionCode_)();
+          console.log(vmOutput)
+          // * END
+
+          if (debugMessages) console.log("opdArray_ = ", opdArray_);
+    
+          debugMsg("run node successfull");
+          debugMsg("--- RUN NODE END ---");
+    
+          this.getNodeObjectById(id).outputPorts.map((e, i) => {
+            // update the output ports of the node:
+            if (opdArray_[i]) e.setData(opdArray_[i]);
+    
+            // update the input ports of the successor nodes:
+            e.portState.connectedPorts.map((e_, i_) => {
+              this.getPortObjectById(e_).setData(opdArray_[i]);
+            });
+          });
+          // update the nodes debug message:
+          this.getNodeObjectById(id).nodeState.setState("02", "execution of the nodes actionFunction was successfull");
+    
+          return {
+            "debugMsg": "success",
+            "result": vmOutput
+          };
+        } catch (error) {
+          console.log(error);
+          // there was an error. put all output ports of the node to null:
+          this.getNodeObjectById(id).outputPorts.map((e, i) => {
+            opdArray_.push(null);
+          });
+          if (debugMessages) console.log("opdArray_ = ", opdArray_);
+          this.getNodeObjectById(id).outputPorts.map((e, i) => {
+            // update the output ports of the node:
+            e.setData(opdArray_[i]);
+            // update the input ports of the successor nodes:
+            e.portState.connectedPorts.map((e_, i_) => {
+              this.getPortObjectById(e_).setData(opdArray_[i]);
+              //console.log("INSIDE OF RUNNODE: ", e_.portState, e_.id)
+            });
+          });
+          // update the nodes debug message:
+          this.getNodeObjectById(id).nodeState.setState("05", "an error occured during the execution of the nodes actionFunction. error message: "+error.message);
+          debugMsg("run node error.");
+          debugMsg("--- RUN NODE END ---");
+          debugMsg(error.message);
+          return {
+            "debugMsg": error.message,
+            "result": FLOWINE_CONFIG.errorResult
+          };
+        }
+
+      default:
+        return {
+          "debugMsg": "error in case (runnode)",
+          "result": FLOWINE_CONFIG.errorResult
+        };
     }
   }
 

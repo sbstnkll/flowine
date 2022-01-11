@@ -58,6 +58,10 @@ export default {
     "openCanvasFromJSON": {
       "success": "canvas opened from JSON file.",
       "error": "error."
+    },
+    "openCanvas": {
+      "success": "canvas opened.",
+      "error": "error."
     }
   }
 }
