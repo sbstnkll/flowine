@@ -1,0 +1,19 @@
+FROM ubuntu:latest
+
+RUN apt-get -y update
+RUN apt-get install -y curl
+RUN apt-get install -y sudo
+
+# download nodejs:
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+# install nodejs:
+RUN sudo apt-get install -y nodejs
+RUN sudo apt-get install -y python3-pip
+
+WORKDIR dev_env
+
+COPY . /dev_env
+
+EXPOSE 8000
+
+#CMD ["npm", "start"]
