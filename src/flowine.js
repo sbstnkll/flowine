@@ -1,10 +1,7 @@
 "use strict";
 
-import * as fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { VM } from "vm2";
-import { PythonShell, PythonShellError } from 'python-shell';
 import { promisify } from "util";
 
 //* CONFIGURATION
@@ -741,6 +738,96 @@ class Flowine {
         // flowine is running:
         try {
           canvas_ = JSON.parse(fs.readFileSync(`${fileName}.json`));
+          // create the canvas object:
+          this.createCanvas(canvas_.header.canvasName);
+          // create the nodes object(s):
+          canvas_.body.nodes.map((e, i) => {
+            var inputPortsArray_ = [];
+            var outputPortsArray_ = [];
+            e.inputPorts.map((e_, i_) => {
+              var connectedPorts__, data__, dataType__;
+              connectedPorts__ = e_.portState.connectedPorts;
+              data__ = e_.portState.data.data;
+              dataType__ = e_.portState.data.dataType;
+              inputPortsArray_.push(
+                new Port(
+                  e_.id,
+                  e_.ioType,
+                  e_.dataType,
+                  e_.holderNodeId,
+                  new PortState(connectedPorts__, new DataToken(dataType__, data__)),
+                  e_.visible
+                )
+              );
+            });
+            e.outputPorts.map((e_, i_) => {
+              var connectedPorts__, data__, dataType__;
+              connectedPorts__ = e_.portState.connectedPorts;
+              data__ = e_.portState.data.data;
+              dataType__ = e_.portState.data.dataType;
+              outputPortsArray_.push(
+                new Port(
+                  e_.id,
+                  e_.ioType,
+                  e_.dataType,
+                  e_.holderNodeId,
+                  new PortState(connectedPorts__, new DataToken(dataType__, data__)),
+                  e_.visible
+                )
+              );
+            });
+            this.createNode_fromDefinition(
+              e.id,
+              e.type,
+              e.nodeType,
+              e.caption,
+              inputPortsArray_,
+              outputPortsArray_,
+              new ActionFunction(
+                e.actionFunction.language,
+                e.actionFunction.code),
+              new NodeState(e.nodeState.state, e.nodeState.debugMessage)
+            );
+          });
+
+          // create the edge object(s):
+          canvas_.body.edges.map((e, i) => {
+            this.createEdge_fromDefinition(
+              e.id,
+              e.sourcePortId,
+              e.targetPortId
+            );
+          });
+          debugMsg(FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.success);
+          return {
+            "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.success,
+            "result": FLOWINE_CONFIG.successResult
+          };
+        } catch (error) {
+          console.log(error);
+          debugMsg(FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.error);
+          return {
+            "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.error,
+            "result": FLOWINE_CONFIG.errorResult
+          };
+        }
+      default:
+        // flowine isn't running:
+        debugMsg(FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.error);
+        return {
+          "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvasFromJSON.error,
+          "result": FLOWINE_CONFIG.errorResult
+        };
+    }
+  }
+
+  openCanvas(canvasObject) {
+    var canvas_;
+    switch (this.isRunning) {
+      case true:
+        // flowine is running:
+        try {
+          canvas_ = canvasObject;
           // create the canvas object:
           this.createCanvas(canvas_.header.canvasName);
           // create the nodes object(s):
