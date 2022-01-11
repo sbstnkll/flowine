@@ -118,7 +118,7 @@ The core library consists of just 3 files:
 - `config.js` This is the configuration file that is used by flowine.js
 - `nodelibrary.js` This is the standard node-library that is loaded by default
 
-Development is best made inside the Development Environment `/dev_env`:
+Run the following commands from the root folder and the use the `dev`folder to develop:
 
 `docker build . -t dev_env -f dev_env/Dockerfile`  
 `docker run -it --rm --name dev_env -p 127.0.0.1:8000:8000/tcp -v ${PWD}:/dev_env dev_env`  
