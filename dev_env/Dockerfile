@@ -9,9 +9,6 @@ WORKDIR dev_env
 
 COPY . /dev_env
 
-RUN chown -R root /dev_env/
-RUN chmod -R 777 /dev_env/
-
 EXPOSE 3000 8000
 
 #ENTRYPOINT ["npm", "start"]
