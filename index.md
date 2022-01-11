@@ -121,7 +121,7 @@ The core library consists of just 3 files:
 Run the following commands from the root folder and the use the `dev`folder to develop:
 
 `docker build . -t dev_env -f dev_env/Dockerfile`  
-`docker run -it --rm --name dev_env -p 127.0.0.1:8000:8000/tcp -v ${PWD}:/dev_env dev_env`  
+`docker run -it --rm --name dev_env -p 127.0.0.1:3000:3000/tcp -p 127.0.0.1:8000:8000/tcp -v ${PWD}:/dev_env dev_env`  
 `cd /dev_env/src && npm i`  
 `cd /dev_env/dev_env && npm i && npm run dev`  
 
