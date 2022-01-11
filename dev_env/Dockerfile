@@ -7,8 +7,11 @@ RUN apk add py3-pip
 
 WORKDIR dev_env
 
-EXPOSE 3000 8000
-
 COPY . /dev_env
+
+RUN chown -R root /dev_env/
+RUN chmod -R 777 /dev_env/
+
+EXPOSE 3000 8000
 
 #ENTRYPOINT ["npm", "start"]
