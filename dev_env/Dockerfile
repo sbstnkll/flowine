@@ -12,7 +12,7 @@ RUN sudo apt-get install -y python3-pip
 # install opencv-python, skip questions:
 #RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install python3-opencv
 
-WORKDIR dev_env/dev_env
+WORKDIR dev_env/dev_envexit
 
 COPY . /dev_env
 
