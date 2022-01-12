@@ -1258,8 +1258,12 @@ Usage:
 scopedEval({a:1,b:2},"return this.a+this.b")*/
 
 
-          const vmOutput = Function(actionFunctionCode_)();
-          console.log(vmOutput)
+          //const vmOutput = Function(actionFunctionCode_)();
+          var actionFunctionSandbox = new Function("ipdArray_", "opdArray_", actionFunctionCode_)
+
+          actionFunctionSandbox(ipdArray_, opdArray_);
+
+          //console.log("hier", vmOutput(ipdArray_, opdArray_));
           // * END
 
           if (debugMessages) console.log("opdArray_ = ", opdArray_);
@@ -1281,7 +1285,7 @@ scopedEval({a:1,b:2},"return this.a+this.b")*/
     
           return {
             "debugMsg": "success",
-            "result": vmOutput
+            "result": FLOWINE_CONFIG.successResult
           };
         } catch (error) {
           console.log(error);

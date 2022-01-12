@@ -47,7 +47,7 @@ const canvasExample = {
         ],
         "actionFunction": {
           "language": "JavaScript",
-          "code": "var opdArray__; opdArray__[0] = ipdArray_[0]; return opdArray__;"
+          "code": "opdArray_[0] = ipdArray_[0]; return opdArray_;"
         },
         "nodeState": {
           "state": "01",
