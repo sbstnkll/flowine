@@ -42,6 +42,10 @@ function App() {
 		setFlowineState(flowine.runNode("340448a3-f42c-4d33-90cb-719f24093668"));
   }
 
+  const onButtonClick_solveGraph = e => {
+		setFlowineState(flowine.solveGraph());
+  }
+
   useEffect(() => {
   }, []);
 
@@ -54,6 +58,7 @@ function App() {
 				<button onClick={onButtonClick_createEdge}>createEdge</button>
 				<button onClick={onButtonClick_openCanvas}>openCanvas</button>
 				<button onClick={onButtonClick_runNode}>runNode</button>
+        <button onClick={onButtonClick_solveGraph}>solveGraph</button>
 			</div>
       <div>
         <ReactJson src={fl} />

@@ -914,7 +914,7 @@ class Flowine {
   /**
    * solveGraph
    */
-  async solveGraph() {
+  async solveGraph_async() {
     debugMsg("--- SOLVE-GRAPH START ---");
     debugMsg("-------------------------");
 
@@ -975,7 +975,7 @@ class Flowine {
     return result_
   }
 
-  async runNode_old(id, debug = false) {
+  async runNode_async(id, debug = false) {
     var ipdArray_ = [],
       opdArray_ = [];
     var codeArray_ = [];
@@ -1157,6 +1157,57 @@ class Flowine {
     }
   }
 
+  /**
+   * solveGraph
+   */
+  solveGraph() {
+    debugMsg("--- SOLVE-GRAPH START ---");
+    debugMsg("-------------------------");
+
+    var nodeSequence_ = [];
+
+    // topological sorting of the nodes
+    nodeSequence_ = this.getTopologicallySortedNodeIds();
+
+    try {
+      // * SOLVER CODE STARTS HERE
+      for (let i = 0; i < nodeSequence_.length; i++) {
+        var e = nodeSequence_[i];
+        var nodeObject_ = this.getNodeObjectById(e);
+        if (debugMessages)
+          console.log(
+            "Node ",
+            i,
+            ", ",
+            nodeObject_.type,
+            ", ",
+            nodeObject_.nodeType,
+            ", ",
+            nodeObject_.id
+          );
+        // * run the node:
+        this.runNode(e, true)
+      }
+      // * SOLVER CODE ENDS HERE
+      debugMsg("solve graph successfull");
+      debugMsg("-----------------------");
+      debugMsg("--- SOLVE-GRAPH END ---");
+      return {
+        "debugMsg": "solveGraph successfull.",
+        "result": FLOWINE_CONFIG.successResult
+      };
+    } catch (error) {
+      debugMsg("solveGraph error.");
+      debugMsg(error);
+      debugMsg("-----------------------");
+      debugMsg("--- SOLVE-GRAPH END ---");
+      return {
+        "debugMsg": "solveGraph error.",
+        "result": FLOWINE_CONFIG.errorResult
+      };
+    }
+  }
+
   inputPortsHaveNullValues(inputPortsArray_) {
     var result_;
     inputPortsArray_.map((e, i) => {
@@ -1184,8 +1235,6 @@ class Flowine {
     // check if there are any NULL - values at the input ports of the node
     // is yes, abort and send null values to all output ports:
     inputPortsHaveNullValues_ = this.inputPortsHaveNullValues(this.getNodeObjectById(id).inputPorts);
-
-    console.log(inputPortsHaveNullValues_)
 
     switch (inputPortsHaveNullValues_) {
       case true:
@@ -1245,25 +1294,9 @@ class Flowine {
           if (debug) console.log("actionFunction_ = ", actionFunctionCode_);
           if (debug) console.log("codeString_ = ", codeString_);
   
-
-          // start the vm and run the action function asynchronously:
           // * START
-
-          // scoped eval:
-
-          /*
-          const scopedEval = (scope, script) => Function(`"use strict"; ${script}`).bind(scope)();
-Usage:
-
-scopedEval({a:1,b:2},"return this.a+this.b")*/
-
-
-          //const vmOutput = Function(actionFunctionCode_)();
           var actionFunctionSandbox = new Function("ipdArray_", "opdArray_", actionFunctionCode_)
-
           actionFunctionSandbox(ipdArray_, opdArray_);
-
-          //console.log("hier", vmOutput(ipdArray_, opdArray_));
           // * END
 
           if (debugMessages) console.log("opdArray_ = ", opdArray_);
@@ -1284,7 +1317,7 @@ scopedEval({a:1,b:2},"return this.a+this.b")*/
           this.getNodeObjectById(id).nodeState.setState("02", "execution of the nodes actionFunction was successfull");
     
           return {
-            "debugMsg": "success",
+            "debugMsg": FLOWINE_CONFIG.debugMsg.runNode.success,
             "result": FLOWINE_CONFIG.successResult
           };
         } catch (error) {

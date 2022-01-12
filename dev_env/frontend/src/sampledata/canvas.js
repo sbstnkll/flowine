@@ -21,7 +21,7 @@ const canvasExample = {
               "connectedPorts": [],
               "data": {
                 "dataType": "TEXT",
-                "data": "ter"
+                "data": "Hallo1."
               }
             },
             "visible": false
