@@ -95,7 +95,7 @@ const canvasExample = {
         ],
         "actionFunction": {
           "language": "JavaScript",
-          "code": "(function uppercaseNode() { opdArray_[0] = ipdArray_[0].toUpperCase(); return opdArray_; })();"
+          "code": "(function() { opdArray_[0] = ipdArray_[0].toUpperCase(); return opdArray_; })();"
         },
         "nodeState": {
           "state": "01",
