@@ -10,7 +10,7 @@ import ReactFlowine from './components/ReactFlowine';
 import canvas1 from "./sampledata/canvas1";
 import canvas2 from "./sampledata/canvas2";
 
-
+import { FLOWINE_NODELIBRARY_ } from 'flowine';
 
 function App() {
   const [fl, setFl] = useState({});
@@ -31,11 +31,15 @@ function App() {
     setCanvas(canvas2);
   }
 
+  useEffect(() => {
+    setNl(FLOWINE_NODELIBRARY_);
+  }, [])
+
   return (
     <div className="page">
       <div className="content">
         <div className="top">
-          <ReactFlowine canvas={canvas} onFlowineChange={onFlowineChange} />
+          <ReactFlowine canvas={canvas} nl={nl} onFlowineChange={onFlowineChange} />
         </div>
         <div className="bottom">
           <div className="bottom-buttons">
