@@ -894,7 +894,7 @@ class Flowine {
             "result": FLOWINE_CONFIG.successResult
           };
         } catch (error) {
-          console.log(error);
+          //console.log(error);
           debugMsg(FLOWINE_CONFIG.debugMsg.openCanvas.error);
           return {
             "debugMsg": FLOWINE_CONFIG.debugMsg.openCanvas.error,

@@ -61,7 +61,7 @@ export default {
     },
     "openCanvas": {
       "success": "canvas opened.",
-      "error": "error."
+      "error": "error. openCanvas."
     },
     "runNode": {
       "success": "runNode successfull",

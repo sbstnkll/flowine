@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 
-import ReactFlow, { removeElements, updateEdge, MiniMap, Controls, Background
-} from "react-flow-renderer";
+import ReactFlow, { MiniMap, Controls, Background, applyNodeChanges,
+  applyEdgeChanges, addEdge, Handle } from "react-flow-renderer";
 
 import flowine from "flowine";
+import canvasExample from "../sampledata/canvas1";
 
+import { FLOWINE_NODELIBRARY_ } from 'flowine';
+
+/* 
 export const onButtonClick_init = e => {
   setFlowineState(flowine.init());
 }
@@ -38,53 +42,120 @@ export const onButtonClick_solveGraph = e => {
 
 const setFlowineState = flowineObject => {
   console.log(flowineObject);
-  /* if (flowineObject.result !== "error") return setFl(flowine);
-  else setFl(fl); */
+  if (flowineObject.result !== "error") return setFl(flowine);
+  else setFl(fl);
   
+} */
+
+/* const initialNodes = [
+  { id: '1', data: { label: 'Node 1' }, position: { x: 250, y: 0 } },
+  { id: '2', data: { label: 'Node 2' }, position: { x: 150, y: 100 } }
+]; */
+
+const transformFlowineNodes = canvas => {
+  const returnNodes = canvas.body?.nodes.map((node, i) => (
+    { 
+      id: node.id,
+      data: { label: "www" },
+      position: { x: 250, y: 0+i*100 },
+      type: "TEXT",
+      style: { border: '1px solid #777', padding: 10 }
+    }
+  ));
+
+  console.log(returnNodes)
+
+  return returnNodes;
+}
+
+const transformFlowineEdges = canvas => {
+  const returnEdges = canvas.body?.edges.map((edge, id) => (
+    { 
+      id: edge.id,
+      source: flowine.getPortObjectById(edge.sourcePortId).holderNodeId,
+      target: flowine.getPortObjectById(edge.targetPortId).holderNodeId,
+      sourceHandle: "",
+      targetHandle: "" 
+    }
+  ));
+
+  console.log(returnEdges);
+
+  return returnEdges;
+}
+
+const TextNode = node => {
+  return (
+    <div>
+      <Handle 
+        type="target"
+        position="left"
+      />
+      {/* <div>jlkj</div> */}
+      <div>{node.data.label}</div>
+      <Handle 
+        type="source"
+        position="right"
+        style={{ top: "25%"}}
+      />
+      <Handle 
+        type="source"
+        position="right"
+        style={{ top: "75%" }}
+      />
+    </div>
+  )
+}
+
+const nodeTypes = {
+  TEXT: TextNode
 }
 
 const ReactFlowine = (props) => {
   const [fl, setFl] = useState({});
+  const [nl, setNl] = useState({});
 
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
 
+  const onNodesChange = useCallback(
+    (changes) => setNodes((ns) => applyNodeChanges(changes, ns)), []
+  );
 
-  const [elements, setElements] = useState([]);
-  const [instance, setInstance] = useState();
-  const [nodeTypes, setNodeTypes] = useState({});
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((es) => applyEdgeChanges(changes, es)), []
+  );
 
-  /**
-   * handleReactFlow_onLoad - handles the initial load of reactflow
-   * @param {*} reactFlowInstance 
-   */
-  const handleReactFlow_onLoad = (reactFlowInstance) => {
-    setInstance(reactFlowInstance);
-    reactFlowInstance.fitView();
-  }
-
-  useEffect(() => {
-    console.log("fl");
-  }, [props.fl]);
+  const onConnect = (params) => {
+    params.id = "w";
+    setEdges((els) => addEdge(params, els));
+  };
 
   useEffect(() => {
-    console.log("fl.canvas");
-  }, [props.fl.canvas?.body]);
+    flowine.init();
+    setFl(flowine);
+    if (!props.nl) setNl(FLOWINE_NODELIBRARY_);
+    else setNl(props.nl);
+  }, []);
+
+  useEffect(() => {
+    props.onFlowineChange(fl);
+  }, [fl]);
+
+  useEffect(() => {
+    flowine.openCanvas(props.canvas); setFl(flowine);
+    setNodes(transformFlowineNodes(props.canvas));
+    setEdges(transformFlowineEdges(props.canvas))
+  }, [props.canvas]);
 
   return (
     <ReactFlow
-      elements={elements}
-      /* onElementsRemove={handleReactFlow_deleteElement} */
-      /* onConnect={handleReactFlow_connect} */
-      deleteKeyCode={8 || 46}
-      /* onEdgeUpdate={handleReactFlow_updateEdge} */
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
       nodeTypes={nodeTypes}
-      /* snapToGrid={true}
-        snapGrid={[16, 16]} */
-      connectionLineStyle={{ stroke: "black", strokeWidth: 2 }}
-      /* onNodeDoubleClick={(e, node) => {
-        handleReactFlow_doubleClick(e, node);
-      }} */
-      /* onPaneContextMenu={handleReactFlow_onPaneContextMenu} */
-      onLoad={handleReactFlow_onLoad}
     >
       <Background variant="dots" gap={10} size={1} color="#c8c8c8" />
       <MiniMap
