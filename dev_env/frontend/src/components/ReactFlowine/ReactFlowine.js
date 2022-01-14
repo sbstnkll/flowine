@@ -4,7 +4,6 @@ import ReactFlow, { MiniMap, Controls, Background, applyNodeChanges,
   applyEdgeChanges, addEdge, Handle } from "react-flow-renderer";
 
 import flowine from "flowine";
-import canvasExample from "../sampledata/canvas1";
 
 import { FLOWINE_NODELIBRARY_ } from 'flowine';
 
@@ -157,7 +156,7 @@ const ReactFlowine = (props) => {
       onConnect={onConnect}
       nodeTypes={nodeTypes}
     >
-      <Background variant="dots" gap={10} size={1} color="#c8c8c8" />
+      {/* <Background variant="dots" gap={10} size={1} color="#c8c8c8" />
       <MiniMap
         nodeColor={(node) => {
           switch (node.type) {
@@ -172,7 +171,7 @@ const ReactFlowine = (props) => {
           }
         }}
       />
-      <Controls />
+      <Controls /> */}
     </ReactFlow>
   )
 }

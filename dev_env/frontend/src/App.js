@@ -1,11 +1,10 @@
-// * CSS:
 import './App.css';
 
 import React, { useEffect, useState } from "react";
 
 import ReactJson from 'react-json-view';
 
-import ReactFlowine from './components/ReactFlowine';
+import ReactFlowine from './components/ReactFlowine/ReactFlowine';
 
 import canvas1 from "./sampledata/canvas1";
 import canvas2 from "./sampledata/canvas2";
